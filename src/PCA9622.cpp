@@ -82,53 +82,91 @@ void PCA9622::setI2CAddress(uint8_t i2c_address) {
     _i2c_address = i2c_address;
 }
 
+/**
+ * @brief Sets the sleep bit. Turns off the oscillator and sets the chip to low power mode
+ * 
+ */
 void PCA9622::sleep() {
-    i2c_write_byte(_i2c_address, PCA9622_MODE1, readRegister(PCA9622_MODE1) | PCA9622_Configuration::SLEEP);
+    writeRegister(PCA9622_MODE1, readRegister(PCA9622_MODE1) | PCA9622_Configuration::SLEEP);
 }
 
+/**
+ * @brief Disables the sleep bit. Turns on the oscillator, this takes about a maximum of 500us
+ * 
+ */
 void PCA9622::wakeUp() {
-    i2c_write_byte(_i2c_address, PCA9622_MODE1, readRegister(PCA9622_MODE1) | PCA9622_Configuration::WAKEUP);
+    writeRegister(PCA9622_MODE1, readRegister(PCA9622_MODE1) | PCA9622_Configuration::WAKEUP);
     delayMicroseconds(500);
 }
 
+/**
+ * @brief Sets the I2C sub address 1. @note this also sets the class variable
+ * 
+ * @param address The I2C sub address 1 to set
+ * @param addressType the I2C address type to write to 
+ */
 void PCA9622::setSubAddress1(uint8_t address, EAddressType addressType) {
-    uint8_t retVal = i2c_write_byte(getAddress(addressType), PCA9622_I2C_SUB_1, address);
+    uint8_t retVal = writeRegister(PCA9622_I2C_SUB_1, address, addressType);
     if (retVal == 0) {
         _i2c_address_sub_1 = address;
     }
 }
 
+/**
+ * @brief Sets the I2C sub address 2. @note this also sets the class variable
+ * 
+ * @param address The I2C sub address 2 to set
+ * @param addressType the I2C address type to write to 
+ */
 void PCA9622::setSubAddress2(uint8_t address, EAddressType addressType) {
-    uint8_t retVal = i2c_write_byte(getAddress(addressType), PCA9622_I2C_SUB_2, address);
+    uint8_t retVal = writeRegister(PCA9622_I2C_SUB_2, address, addressType);
     if (retVal == 0) {
         _i2c_address_sub_2 = address;
     }
 }
 
+/**
+ * @brief Sets the I2C sub address 3. @note this also sets the class variable
+ * 
+ * @param address The I2C sub address 3 to set
+ * @param addressType the I2C address type to write to 
+ */
 void PCA9622::setSubAddress3(uint8_t address, EAddressType addressType) {
-    uint8_t retVal = i2c_write_byte(getAddress(addressType), PCA9622_I2C_SUB_3, address);
+    uint8_t retVal = writeRegister(PCA9622_I2C_SUB_3, address, addressType);
     if (retVal == 0) {
         _i2c_address_sub_3 = address;
     }
 }
 
+/**
+ * @brief Sets the I2C all call address. @note this also sets the class variable
+ * 
+ * @param address The I2C all call address to set
+ * @param addressType the I2C address type to write to 
+ */
 void PCA9622::setAllCallAddress(uint8_t address, EAddressType addressType) {
-    uint8_t retVal = i2c_write_byte(getAddress(addressType), PCA9622_ALL_CALL, address);
+    uint8_t retVal = writeRegister(PCA9622_ALL_CALL, address, addressType);
     if (retVal == 0) {
         _i2c_address_all_call = address;
     }
 }
 
+/**
+ * @brief Configures the device according to the configuration param
+ * 
+ * @param configuration The configuration of the device, this can be made by bitwise OR ('|') the enum @ref PCA9622_Configuration
+ * @param addressType the I2C address type to write to 
+ */
 void PCA9622::configure(uint8_t configuration, EAddressType addressType) {
-    i2c_write_byte(getAddress(addressType), PCA9622_MODE1, configuration);
+    writeRegister(PCA9622_MODE1, configuration, addressType);
 }
 
 void PCA9622::enableGlobalDimming(EAddressType addressType) {
-    
+    writeRegister(PCA9622_MODE2, readRegister(PCA9622_MODE2) & ~(1 << 5), addressType);
 }
 
 void PCA9622::enableGlobalBlinking(EAddressType addressType) {
-
+    writeRegister(PCA9622_MODE2, readRegister(PCA9622_MODE2) | (1 << 5), addressType);
 }
 
 
@@ -153,11 +191,13 @@ uint8_t PCA9622::readRegister(uint8_t regAddress) {
  * @param data the data to write to the register
  * @param addressType the I2C address type to write to 
  */
-void PCA9622::writeRegister(uint8_t regAddress, uint8_t data, EAddressType addressType) {
-    i2c_write_byte(getAddress(addressType), regAddress, data);
+uint8_t PCA9622::writeRegister(uint8_t regAddress, uint8_t data, EAddressType addressType) {
+    return i2c_write_byte(getAddress(addressType), regAddress, data);
 }
 
-
+uint8_t PCA9622::writeMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count, EAddressType addressType) {
+    i2c_write_multi(getAddress(addressType), startAddress, data, count);
+}
 
 /**
  * @brief Drives the ~OE pin low and enables the outputs of the PCA9622
@@ -175,8 +215,6 @@ void PCA9622::disableOutputs() {
     digitalWrite(_OE_pin, HIGH);
 }
 
-
-
 /**
  * @brief Sets the pwm output of the driver
  * 
@@ -185,7 +223,7 @@ void PCA9622::disableOutputs() {
  * @param addressType the I2C address type to write to 
  */
 void PCA9622::setPWMOutput(uint8_t output, uint8_t value, EAddressType addressType) {
-    i2c_write_byte(getAddress(addressType), PCA9622_PWM0 + output, value);
+    writeRegister(PCA9622_PWM0 + output, value, addressType);
 }
 
 /**
@@ -199,7 +237,7 @@ void PCA9622::setAllPWMOutputs(uint8_t value, EAddressType addressType) {
     for (uint8_t i = 0; i < 16; i++) {
         buffer[i] = value;
     }
-    i2c_write_multi(getAddress(addressType), PCA9622_PWM0 | PCA9622_AI_INDIVIDUAL, buffer, 16);
+    writeMultiRegister(PCA9622_PWM0 | PCA9622_AI_INDIVIDUAL, buffer, 16, addressType);
 }
 
 /**
@@ -211,7 +249,7 @@ void PCA9622::setAllPWMOutputs(uint8_t value, EAddressType addressType) {
  * @param addressType 
  */
 void PCA9622::setGroupPWM(uint8_t value, EAddressType addressType) {
-    i2c_write_byte(getAddress(addressType), PCA9622_GRPPWM, value);
+    writeRegister(PCA9622_GRPPWM, value, addressType);
 }
 
 uint16_t PCA9622::setGroupFrequency(uint16_t ms, EAddressType addressType) {
@@ -227,7 +265,13 @@ uint16_t PCA9622::setGroupFrequency(uint16_t ms, EAddressType addressType) {
 
 /*----------------------- RGB control functions -----------------------------*/
 
+void PCA9622::setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType) {
 
+}
+
+void PCA9622::setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType) {
+
+}
 
 
 /*------------------------- Helper functions --------------------------------*/
@@ -266,7 +310,9 @@ uint8_t PCA9622::getAddress(EAddressType addressType) {
     return i2c_address;
 }
 
+void fillLEDbuffer(uint8_t *buffer, LED_Configuration ledConfiguration) {
 
+}
 
 
 void PCA9622::test() {

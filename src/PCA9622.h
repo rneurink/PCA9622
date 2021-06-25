@@ -46,6 +46,12 @@ enum LED_Configuration {
     RBGA,
     GBRA,
     BRGA,
+    ARGB,
+    AGRB,
+    ABGR,
+    ARBG,
+    AGBR,
+    ABRG,
 };
 
 enum LED_State {
@@ -82,6 +88,9 @@ class PCA9622
         PCA9622(uint8_t i2c_address, uint8_t outputEnablePin); // Constructor
         PCA9622(uint8_t i2c_address, uint8_t outputEnablePin, LED_Configuration ledConfiguration); // Constructor with specific led configuration
 
+        /**
+         * Initialisation functions
+         */
         void begin();
         void softwareReset();
 
@@ -89,6 +98,9 @@ class PCA9622
         void setLEDConfiguration(LED_Configuration ledConfiguration);
         void setI2CAddress(uint8_t i2c_address);
 
+        /**
+         * Configuration functions
+         */
         void sleep();
         void wakeUp();
         void setSubAddress1(uint8_t address, EAddressType addressType = EAddressType::Normal);
@@ -99,10 +111,13 @@ class PCA9622
         void enableGlobalDimming(EAddressType addressType = EAddressType::Normal);
         void enableGlobalBlinking(EAddressType addressType = EAddressType::Normal);
 
+        /**
+         * General control functions
+         */
         uint8_t readRegister(uint8_t regAddress);
-        void writeRegister(uint8_t regAddress, uint8_t data, EAddressType addressType = EAddressType::Normal);
+        uint8_t writeRegister(uint8_t regAddress, uint8_t data, EAddressType addressType = EAddressType::Normal);
 
-        void writeMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count, EAddressType addressType = EAddressType::Normal);
+        uint8_t writeMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count, EAddressType addressType = EAddressType::Normal);
 
         void enableOutputs();
         void disableOutputs();
@@ -112,6 +127,13 @@ class PCA9622
 
         void setGroupPWM(uint8_t value, EAddressType addressType = EAddressType::Normal);
         uint16_t setGroupFrequency(uint16_t ms, EAddressType addressType = EAddressType::Normal);
+
+        /**
+         * RGB control functions
+         */
+
+        void setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType = EAddressType::Normal);
+        void setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType = EAddressType::Normal);
 
         void test();
 
@@ -129,7 +151,7 @@ class PCA9622
         LED_Configuration _led_configuration = RGB;
 
         uint8_t getAddress(EAddressType addressType);
-        uint8_t fillLEDbuffer(uint8_t *buffer, LED_Configuration ledConfiguration);
+        void fillLEDbuffer(uint8_t *buffer, LED_Configuration ledConfiguration);
 };
 
 #endif

@@ -196,7 +196,7 @@ uint8_t PCA9622::writeRegister(uint8_t regAddress, uint8_t data, EAddressType ad
 }
 
 uint8_t PCA9622::writeMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count, EAddressType addressType) {
-    i2c_write_multi(getAddress(addressType), startAddress, data, count);
+    return i2c_write_multi(getAddress(addressType), startAddress, data, count);
 }
 
 /**
@@ -245,20 +245,29 @@ void PCA9622::setAllPWMOutputs(uint8_t value, EAddressType addressType) {
  * When DMBLNK is set to 0, a 190Hz fixed frequency signal is superimposed with the 97kHz individual brightness control signal.
  * When DMBLNK is set to 1, togheter with the group frequency defines a global blinking pattern in which the value will determine the duty cycle of the ON/OFF ratio as a percentage
  * 
- * @param value 
- * @param addressType 
+ * @param value The pwm duty cycle
+ * @param addressType the I2C address type to write to 
  */
 void PCA9622::setGroupPWM(uint8_t value, EAddressType addressType) {
     writeRegister(PCA9622_GRPPWM, value, addressType);
 }
 
+/**
+ * @brief Sets the blinking frequency
+ * When DMBLNK is 0 this register does nothing
+ * When DMBLNK is 1 this register is used to program the blinking delay
+ * 
+ * @param ms the blinking delay in ms from 42..10666. Not all values are valid and it will find the closest valid value.
+ * @param addressType the I2C address type to write to 
+ * @return uint16_t The real time in ms that the register will be programmed to as not all values are valid
+ */
 uint16_t PCA9622::setGroupFrequency(uint16_t ms, EAddressType addressType) {
     if (ms < 42) ms = 42;
     if (ms > 10666) ms = 10666;
     uint8_t regValue = (uint8_t)((((uint32_t)ms * 24) - 1000) / 1000);
     uint16_t actualValue = (uint16_t)(((regValue + 1) * 1000) / 24);
 
-    i2c_write_byte(getAddress(addressType), PCA9622_GRPFREQ, regValue);
+    writeRegister(PCA9622_GRPFREQ, regValue, addressType);
     return actualValue;
 }
 
@@ -266,11 +275,15 @@ uint16_t PCA9622::setGroupFrequency(uint16_t ms, EAddressType addressType) {
 /*----------------------- RGB control functions -----------------------------*/
 
 void PCA9622::setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType) {
-
+    uint8_t buffer[3];
+    fillLEDbuffer(red, green, blue, buffer);
+    writeMultiRegister(PCA9622_PWM0 + (3 * led), buffer, 3, addressType);
 }
 
 void PCA9622::setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType) {
-
+    uint8_t buffer[4];
+    fillLEDbuffer(red, green, blue, amber, buffer);
+    writeMultiRegister(PCA9622_PWM0 + (4 * led), buffer, 4, addressType);
 }
 
 
@@ -310,8 +323,119 @@ uint8_t PCA9622::getAddress(EAddressType addressType) {
     return i2c_address;
 }
 
-void fillLEDbuffer(uint8_t *buffer, LED_Configuration ledConfiguration) {
-
+void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *buffer) {
+    switch (_led_configuration) {
+        case RGB:
+            buffer[0] = red;
+            buffer[1] = green;
+            buffer[2] = blue;
+            break;
+        case GRB:
+            buffer[0] = green;
+            buffer[1] = red;
+            buffer[2] = blue;
+            break;
+        case BGR:
+            buffer[0] = blue;
+            buffer[1] = green;
+            buffer[2] = red;
+            break;
+        case RBG:
+            buffer[0] = red;
+            buffer[1] = blue;
+            buffer[2] = green;
+            break;
+        case GBR:
+            buffer[0] = green;
+            buffer[1] = blue;
+            buffer[2] = red;
+            break;
+        case BRG:
+            buffer[0] = blue;
+            buffer[1] = red;
+            buffer[2] = green;
+            break;
+        default:
+            break;
+    }
+}
+void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, uint8_t *buffer) {
+    switch (_led_configuration) {
+        case RGBA:
+            buffer[0] = red;
+            buffer[1] = green;
+            buffer[2] = blue;
+            buffer[3] = amber;
+            break;
+        case GRBA:
+            buffer[0] = green;
+            buffer[1] = red;
+            buffer[2] = blue;
+            buffer[3] = amber;
+            break;
+        case BGRA:
+            buffer[0] = blue;
+            buffer[1] = green;
+            buffer[2] = red;
+            buffer[3] = amber;
+            break;
+        case RBGA:
+            buffer[0] = red;
+            buffer[1] = blue;
+            buffer[2] = green;
+            buffer[3] = amber;
+            break;
+        case GBRA:
+            buffer[0] = green;
+            buffer[1] = blue;
+            buffer[2] = red;
+            buffer[3] = amber;
+            break;
+        case BRGA:
+            buffer[0] = blue;
+            buffer[1] = red;
+            buffer[2] = green;
+            buffer[3] = amber;
+            break;
+        case ARGB:
+            buffer[0] = amber;
+            buffer[1] = red;
+            buffer[2] = green;
+            buffer[3] = blue;
+            break;
+        case AGRB:
+            buffer[0] = amber;
+            buffer[1] = green;
+            buffer[2] = red;
+            buffer[3] = blue;
+            break;
+        case ABGR:
+            buffer[0] = amber;
+            buffer[1] = blue;
+            buffer[2] = green;
+            buffer[3] = red;
+            break;
+        case ARBG:
+            buffer[0] = amber;
+            buffer[1] = red;
+            buffer[2] = blue;
+            buffer[3] = green;
+            break;
+        case AGBR:
+            buffer[0] = amber;
+            buffer[1] = green;
+            buffer[2] = blue;
+            buffer[3] = red;
+            break;
+        case ABRG:
+            buffer[0] = amber;
+            buffer[1] = blue;
+            buffer[2] = red;
+            buffer[3] = green;
+            break;
+        default:
+            break;
+    }
 }
 
 

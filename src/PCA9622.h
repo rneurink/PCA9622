@@ -151,7 +151,8 @@ class PCA9622
         LED_Configuration _led_configuration = RGB;
 
         uint8_t getAddress(EAddressType addressType);
-        void fillLEDbuffer(uint8_t *buffer, LED_Configuration ledConfiguration);
+        void fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *buffer);
+        void fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, uint8_t *buffer);
 };
 
 #endif

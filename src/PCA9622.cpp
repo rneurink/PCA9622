@@ -277,15 +277,26 @@ uint16_t PCA9622::setGroupFrequency(uint16_t ms, EAddressType addressType) {
 void PCA9622::setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType) {
     uint8_t buffer[3];
     fillLEDbuffer(red, green, blue, buffer);
-    writeMultiRegister(PCA9622_PWM0 + (3 * led), buffer, 3, addressType);
+    writeMultiRegister((PCA9622_PWM0 + (3 * led)) | PCA9622_AI_INDIVIDUAL, buffer, 3, addressType);
 }
 
 void PCA9622::setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType) {
     uint8_t buffer[4];
     fillLEDbuffer(red, green, blue, amber, buffer);
-    writeMultiRegister(PCA9622_PWM0 + (4 * led), buffer, 4, addressType);
+    writeMultiRegister((PCA9622_PWM0 + (4 * led)) | PCA9622_AI_INDIVIDUAL, buffer, 4, addressType);
 }
 
+void PCA9622::setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType) {
+    uint8_t buffer[3*5];
+    fillLEDbuffer(red, green, blue, buffer, 5);
+    writeMultiRegister(PCA9622_PWM0 | PCA9622_AI_INDIVIDUAL, buffer, 15, addressType);
+}
+
+void PCA9622::setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType) {
+    uint8_t buffer[4*4];
+    fillLEDbuffer(red, green, blue, amber, buffer, 4);
+    writeMultiRegister(PCA9622_PWM0 | PCA9622_AI_INDIVIDUAL, buffer, 16, addressType);
+}
 
 /*------------------------- Helper functions --------------------------------*/
 
@@ -323,118 +334,122 @@ uint8_t PCA9622::getAddress(EAddressType addressType) {
     return i2c_address;
 }
 
-void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *buffer) {
-    switch (_led_configuration) {
-        case RGB:
-            buffer[0] = red;
-            buffer[1] = green;
-            buffer[2] = blue;
-            break;
-        case GRB:
-            buffer[0] = green;
-            buffer[1] = red;
-            buffer[2] = blue;
-            break;
-        case BGR:
-            buffer[0] = blue;
-            buffer[1] = green;
-            buffer[2] = red;
-            break;
-        case RBG:
-            buffer[0] = red;
-            buffer[1] = blue;
-            buffer[2] = green;
-            break;
-        case GBR:
-            buffer[0] = green;
-            buffer[1] = blue;
-            buffer[2] = red;
-            break;
-        case BRG:
-            buffer[0] = blue;
-            buffer[1] = red;
-            buffer[2] = green;
-            break;
-        default:
-            break;
+void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *buffer, uint8_t ledCount) {
+    for (uint8_t i = 0; i < ledCount; i++) {
+        switch (_led_configuration) {
+            case RGB:
+                buffer[0 + (i * 3)] = red;
+                buffer[1 + (i * 3)] = green;
+                buffer[2 + (i * 3)] = blue;
+                break;
+            case GRB:
+                buffer[0 + (i * 3)] = green;
+                buffer[1 + (i * 3)] = red;
+                buffer[2 + (i * 3)] = blue;
+                break;
+            case BGR:
+                buffer[0 + (i * 3)] = blue;
+                buffer[1 + (i * 3)] = green;
+                buffer[2 + (i * 3)] = red;
+                break;
+            case RBG:
+                buffer[0 + (i * 3)] = red;
+                buffer[1 + (i * 3)] = blue;
+                buffer[2 + (i * 3)] = green;
+                break;
+            case GBR:
+                buffer[0 + (i * 3)] = green;
+                buffer[1 + (i * 3)] = blue;
+                buffer[2 + (i * 3)] = red;
+                break;
+            case BRG:
+                buffer[0 + (i * 3)] = blue;
+                buffer[1 + (i * 3)] = red;
+                buffer[2 + (i * 3)] = green;
+                break;
+            default:
+                break;
+        }
     }
 }
-void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, uint8_t *buffer) {
-    switch (_led_configuration) {
-        case RGBA:
-            buffer[0] = red;
-            buffer[1] = green;
-            buffer[2] = blue;
-            buffer[3] = amber;
-            break;
-        case GRBA:
-            buffer[0] = green;
-            buffer[1] = red;
-            buffer[2] = blue;
-            buffer[3] = amber;
-            break;
-        case BGRA:
-            buffer[0] = blue;
-            buffer[1] = green;
-            buffer[2] = red;
-            buffer[3] = amber;
-            break;
-        case RBGA:
-            buffer[0] = red;
-            buffer[1] = blue;
-            buffer[2] = green;
-            buffer[3] = amber;
-            break;
-        case GBRA:
-            buffer[0] = green;
-            buffer[1] = blue;
-            buffer[2] = red;
-            buffer[3] = amber;
-            break;
-        case BRGA:
-            buffer[0] = blue;
-            buffer[1] = red;
-            buffer[2] = green;
-            buffer[3] = amber;
-            break;
-        case ARGB:
-            buffer[0] = amber;
-            buffer[1] = red;
-            buffer[2] = green;
-            buffer[3] = blue;
-            break;
-        case AGRB:
-            buffer[0] = amber;
-            buffer[1] = green;
-            buffer[2] = red;
-            buffer[3] = blue;
-            break;
-        case ABGR:
-            buffer[0] = amber;
-            buffer[1] = blue;
-            buffer[2] = green;
-            buffer[3] = red;
-            break;
-        case ARBG:
-            buffer[0] = amber;
-            buffer[1] = red;
-            buffer[2] = blue;
-            buffer[3] = green;
-            break;
-        case AGBR:
-            buffer[0] = amber;
-            buffer[1] = green;
-            buffer[2] = blue;
-            buffer[3] = red;
-            break;
-        case ABRG:
-            buffer[0] = amber;
-            buffer[1] = blue;
-            buffer[2] = red;
-            buffer[3] = green;
-            break;
-        default:
-            break;
+void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, uint8_t *buffer, uint8_t ledCount) {
+    for (uint8_t i = 0; i < ledCount; i++) {
+        switch (_led_configuration) {
+            case RGBA:
+                buffer[0 + (i * 4)] = red;
+                buffer[1 + (i * 4)] = green;
+                buffer[2 + (i * 4)] = blue;
+                buffer[3 + (i * 4)] = amber;
+                break;
+            case GRBA:
+                buffer[0 + (i * 4)] = green;
+                buffer[1 + (i * 4)] = red;
+                buffer[2 + (i * 4)] = blue;
+                buffer[3 + (i * 4)] = amber;
+                break;
+            case BGRA:
+                buffer[0 + (i * 4)] = blue;
+                buffer[1 + (i * 4)] = green;
+                buffer[2 + (i * 4)] = red;
+                buffer[3 + (i * 4)] = amber;
+                break;
+            case RBGA:
+                buffer[0 + (i * 4)] = red;
+                buffer[1 + (i * 4)] = blue;
+                buffer[2 + (i * 4)] = green;
+                buffer[3 + (i * 4)] = amber;
+                break;
+            case GBRA:
+                buffer[0 + (i * 4)] = green;
+                buffer[1 + (i * 4)] = blue;
+                buffer[2 + (i * 4)] = red;
+                buffer[3 + (i * 4)] = amber;
+                break;
+            case BRGA:
+                buffer[0 + (i * 4)] = blue;
+                buffer[1 + (i * 4)] = red;
+                buffer[2 + (i * 4)] = green;
+                buffer[3 + (i * 4)] = amber;
+                break;
+            case ARGB:
+                buffer[0 + (i * 4)] = amber;
+                buffer[1 + (i * 4)] = red;
+                buffer[2 + (i * 4)] = green;
+                buffer[3 + (i * 4)] = blue;
+                break;
+            case AGRB:
+                buffer[0 + (i * 4)] = amber;
+                buffer[1 + (i * 4)] = green;
+                buffer[2 + (i * 4)] = red;
+                buffer[3 + (i * 4)] = blue;
+                break;
+            case ABGR:
+                buffer[0 + (i * 4)] = amber;
+                buffer[1 + (i * 4)] = blue;
+                buffer[2 + (i * 4)] = green;
+                buffer[3 + (i * 4)] = red;
+                break;
+            case ARBG:
+                buffer[0 + (i * 4)] = amber;
+                buffer[1 + (i * 4)] = red;
+                buffer[2 + (i * 4)] = blue;
+                buffer[3 + (i * 4)] = green;
+                break;
+            case AGBR:
+                buffer[0 + (i * 4)] = amber;
+                buffer[1 + (i * 4)] = green;
+                buffer[2 + (i * 4)] = blue;
+                buffer[3 + (i * 4)] = red;
+                break;
+            case ABRG:
+                buffer[0 + (i * 4)] = amber;
+                buffer[1 + (i * 4)] = blue;
+                buffer[2 + (i * 4)] = red;
+                buffer[3 + (i * 4)] = green;
+                break;
+            default:
+                break;
+        }
     }
 }
 

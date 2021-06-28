@@ -134,6 +134,8 @@ class PCA9622
 
         void setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType = EAddressType::Normal);
         void setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType = EAddressType::Normal);
+        void setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType = EAddressType::Normal);
+        void setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType = EAddressType::Normal);
 
         void test();
 
@@ -151,8 +153,8 @@ class PCA9622
         LED_Configuration _led_configuration = RGB;
 
         uint8_t getAddress(EAddressType addressType);
-        void fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *buffer);
-        void fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, uint8_t *buffer);
+        void fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *buffer, uint8_t ledCount = 1);
+        void fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, uint8_t *buffer, uint8_t ledCount = 1);
 };
 
 #endif

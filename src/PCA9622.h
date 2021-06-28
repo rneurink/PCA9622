@@ -1,3 +1,13 @@
+/**
+ * @file PCA9622.h
+ * @author rneurink (ruben.neurink@gmail.com)
+ * @brief Arduino driver to control the PCA9622
+ * @version 1.0
+ * @date 2021-06-28
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #ifndef __PCA9622_H
 #define __PCA9622_H
 
@@ -110,6 +120,8 @@ class PCA9622
         void configure(uint8_t configuration, EAddressType addressType = EAddressType::Normal);
         void enableGlobalDimming(EAddressType addressType = EAddressType::Normal);
         void enableGlobalBlinking(EAddressType addressType = EAddressType::Normal);
+        void setLEDOutputState(uint8_t led, LED_State ledState, EAddressType addressType = EAddressType::Normal);
+        void setPWMOutputState(uint8_t output, LED_State ledState, EAddressType addressType = EAddressType::Normal);
 
         /**
          * General control functions
@@ -136,8 +148,6 @@ class PCA9622
         void setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType = EAddressType::Normal);
         void setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType = EAddressType::Normal);
         void setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType = EAddressType::Normal);
-
-        void test();
 
     protected:
     private:

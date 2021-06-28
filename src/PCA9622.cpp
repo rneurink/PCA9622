@@ -1,3 +1,13 @@
+/**
+ * @file PCA9622.cpp
+ * @author rneurink (ruben.neurink@gmail.com)
+ * @brief Arduino driver to control the PCA9622
+ * @version 1.0
+ * @date 2021-06-28
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #include "PCA9622.h"
 #include "I2C_coms.h"
 
@@ -40,6 +50,8 @@ void PCA9622::begin() {
 
     writeRegister(PCA9622_MODE1, 0x6E);
     delay(10);
+    uint8_t buffer[] = {0xFF, 0xFF, 0xFF, 0xFF};
+    writeMultiRegister(PCA9622_LED_OUT0 | PCA9622_AI_ALL, buffer, 4); // Sets the led output state
 }
 
 /**
@@ -161,14 +173,57 @@ void PCA9622::configure(uint8_t configuration, EAddressType addressType) {
     writeRegister(PCA9622_MODE1, configuration, addressType);
 }
 
+/**
+ * @brief Enables global dimming through the GRPPWM register. 
+ * See @ref setGroupPWM to set the global dimming
+ * 
+ * @param addressType the I2C address type to write to 
+ */
 void PCA9622::enableGlobalDimming(EAddressType addressType) {
     writeRegister(PCA9622_MODE2, readRegister(PCA9622_MODE2) & ~(1 << 5), addressType);
 }
 
+/**
+ * @brief Enables global blinking through the GRPPWM and GRPFREQ register. 
+ * See @ref setGroupPWM and @ref setGroupFrequency to set the global blinking cuty cycle and interval
+ * 
+ * @param addressType the I2C address type to write to 
+ */
 void PCA9622::enableGlobalBlinking(EAddressType addressType) {
     writeRegister(PCA9622_MODE2, readRegister(PCA9622_MODE2) | (1 << 5), addressType);
 }
 
+/**
+ * @brief Sets the output state of a led channel
+ * 
+ * @param led The led to set the output state of. from 0..3. LED 0 controls output 0..3 and so on
+ * @param ledState The state of the led to set. See @ref LED_State
+ * @param addressType the I2C address type to write to 
+ */
+void PCA9622::setLEDOutputState(uint8_t led, LED_State ledState, EAddressType addressType) {
+    uint8_t state = ((uint8_t)ledState << 6) | ((uint8_t)ledState << 4) | ((uint8_t)ledState << 2) | ((uint8_t)ledState << 0);
+    Serial.println(String(state) + " " + String((uint8_t)ledState));
+    writeRegister(PCA9622_LED_OUT0 + led, state, addressType);
+}
+
+/**
+ * @brief Sets the output state of an output
+ * 
+ * @param output The output to set the state of. from 0..15
+ * @param ledState The state of the led to set. See @ref LED_State
+ * @param addressType the I2C address type to write to 
+ */
+void PCA9622::setPWMOutputState(uint8_t output, LED_State ledState, EAddressType addressType) {
+    if (output <= 3) {
+        writeRegister(PCA9622_LED_OUT0, readRegister(PCA9622_LED_OUT0) | ((uint8_t)ledState << output * 2), addressType);
+    } else if (output <= 7) {
+        writeRegister(PCA9622_LED_OUT1, readRegister(PCA9622_LED_OUT1) | ((uint8_t)ledState << (output % 4) * 2), addressType);
+    } else if (output <= 11) {
+        writeRegister(PCA9622_LED_OUT2, readRegister(PCA9622_LED_OUT2) | ((uint8_t)ledState << (output % 4) * 2), addressType);
+    } else if (output <= 15) {
+        writeRegister(PCA9622_LED_OUT3, readRegister(PCA9622_LED_OUT3) | ((uint8_t)ledState << (output % 4) * 2), addressType);
+    }
+}
 
 /*----------------------- General control functions -------------------------*/
 
@@ -190,11 +245,29 @@ uint8_t PCA9622::readRegister(uint8_t regAddress) {
  * @param regAddress the register address to write to
  * @param data the data to write to the register
  * @param addressType the I2C address type to write to 
+ * @return 0:success
+ * @return 1:data too long to fit in transmit buffer
+ * @return 2:received NACK on transmit of address
+ * @return 3:received NACK on transmit of data
+ * @return 4:other error
  */
 uint8_t PCA9622::writeRegister(uint8_t regAddress, uint8_t data, EAddressType addressType) {
     return i2c_write_byte(getAddress(addressType), regAddress, data);
 }
 
+/**
+ * @brief Writes a given buffer to the specified start address and subsequent addresses
+ * 
+ * @param startAddress the register start address to write to
+ * @param data the data to write to the registers
+ * @param count the amount of data to write
+ * @param addressType the I2C address type to write to 
+ * @return 0:success
+ * @return 1:data too long to fit in transmit buffer
+ * @return 2:received NACK on transmit of address
+ * @return 3:received NACK on transmit of data
+ * @return 4:other error
+ */
 uint8_t PCA9622::writeMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count, EAddressType addressType) {
     return i2c_write_multi(getAddress(addressType), startAddress, data, count);
 }
@@ -274,29 +347,66 @@ uint16_t PCA9622::setGroupFrequency(uint16_t ms, EAddressType addressType) {
 
 /*----------------------- RGB control functions -----------------------------*/
 
+/**
+ * @brief Sets the LED color according to the set LED configuration @ref SetLEDConfiguration
+ * 
+ * @param led The LED to set the color of. If the led configuration is set to RGB or alike (3 color channels) a maximum of 5 leds are supported
+ * @param red The red color value from 0 to 0xFF
+ * @param green The green color value from 0 to 0xFF
+ * @param blue The blue color value from 0 to 0xFF
+ * @param addressType the I2C address type to write to
+ */
 void PCA9622::setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType) {
     uint8_t buffer[3];
     fillLEDbuffer(red, green, blue, buffer);
     writeMultiRegister((PCA9622_PWM0 + (3 * led)) | PCA9622_AI_INDIVIDUAL, buffer, 3, addressType);
 }
 
+/**
+ * @brief 
+ * 
+ * @param led The LED to set the color of. If the led configuration is set to RGBA or alike (4 color channels) a maximum of 4 leds are supported
+ * @param red The red color value from 0 to 0xFF
+ * @param green The green color value from 0 to 0xFF
+ * @param blue The blue color value from 0 to 0xFF
+ * @param amber The amber color value from 0 to 0xFF. Could also be white or another color of course
+ * @param addressType the I2C address type to write to
+ */
 void PCA9622::setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType) {
     uint8_t buffer[4];
     fillLEDbuffer(red, green, blue, amber, buffer);
     writeMultiRegister((PCA9622_PWM0 + (4 * led)) | PCA9622_AI_INDIVIDUAL, buffer, 4, addressType);
 }
 
+/**
+ * @brief Sets all LEDs color according to the set LED configuration @ref SetLEDConfiguration
+ * 
+ * @param red The red color value from 0 to 0xFF
+ * @param green The green color value from 0 to 0xFF
+ * @param blue The blue color value from 0 to 0xFF
+ * @param addressType the I2C address type to write to
+ */
 void PCA9622::setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType) {
     uint8_t buffer[3*5];
     fillLEDbuffer(red, green, blue, buffer, 5);
     writeMultiRegister(PCA9622_PWM0 | PCA9622_AI_INDIVIDUAL, buffer, 15, addressType);
 }
 
+/**
+ * @brief Sets all LEDs color according to the set LED configuration @ref SetLEDConfiguration
+ * 
+ * @param red The red color value from 0 to 0xFF
+ * @param green The green color value from 0 to 0xFF
+ * @param blue The blue color value from 0 to 0xFF
+ * @param amber The amber color value from 0 to 0xFF. Could also be white or another color of course
+ * @param addressType the I2C address type to write to
+ */
 void PCA9622::setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType) {
     uint8_t buffer[4*4];
     fillLEDbuffer(red, green, blue, amber, buffer, 4);
     writeMultiRegister(PCA9622_PWM0 | PCA9622_AI_INDIVIDUAL, buffer, 16, addressType);
 }
+
 
 /*------------------------- Helper functions --------------------------------*/
 
@@ -334,6 +444,15 @@ uint8_t PCA9622::getAddress(EAddressType addressType) {
     return i2c_address;
 }
 
+/**
+ * @brief Fills a led buffer acording to the set LED configuration @ref SetLEDConfiguration
+ * 
+ * @param red The red color value from 0 to 0xFF
+ * @param green The green color value from 0 to 0xFF
+ * @param blue The blue color value from 0 to 0xFF
+ * @param buffer The buffer to fill
+ * @param ledCount The amount of leds that the buffer should address
+ */
 void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *buffer, uint8_t ledCount) {
     for (uint8_t i = 0; i < ledCount; i++) {
         switch (_led_configuration) {
@@ -372,6 +491,17 @@ void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *b
         }
     }
 }
+
+/**
+ * @brief Fills a led buffer acording to the set LED configuration @ref SetLEDConfiguration
+ * 
+ * @param red The red color value from 0 to 0xFF
+ * @param green The green color value from 0 to 0xFF
+ * @param blue The blue color value from 0 to 0xFF
+ * @param amber The amber color value from 0 to 0xFF. Could also be white or another color of course 
+ * @param buffer The buffer to fill
+ * @param ledCount The amount of leds that the buffer should address
+ */
 void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, uint8_t *buffer, uint8_t ledCount) {
     for (uint8_t i = 0; i < ledCount; i++) {
         switch (_led_configuration) {
@@ -453,10 +583,3 @@ void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t am
     }
 }
 
-
-void PCA9622::test() {
-    uint8_t buffer[] = {0x10, 0x20, 0x30};
-    i2c_write_multi(_i2c_address, 0xE2, buffer, 3);
-    delay(10);
-    i2c_read_multi(_i2c_address, 0xE0, buffer, 3);
-}

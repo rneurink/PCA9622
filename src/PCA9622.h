@@ -8,6 +8,13 @@
  * @copyright Copyright (c) 2021
  * 
  */
+
+/*  TODO:
+ *      Test wakeup and sleep
+        Fix setledoutputstate to use the ledconfiguration to set 3 or 4 outputs per led
+ * 
+ */
+
 #ifndef __PCA9622_H
 #define __PCA9622_H
 
@@ -94,77 +101,77 @@ enum PCA9622_Configuration {
 
 class PCA9622
 {
-    public:
-        PCA9622(uint8_t i2c_address, uint8_t outputEnablePin); // Constructor
-        PCA9622(uint8_t i2c_address, uint8_t outputEnablePin, LED_Configuration ledConfiguration); // Constructor with specific led configuration
+public:
+    PCA9622(uint8_t i2c_address, uint8_t outputEnablePin); // Constructor
+    PCA9622(uint8_t i2c_address, uint8_t outputEnablePin, LED_Configuration ledConfiguration); // Constructor with specific led configuration
 
-        /**
-         * Initialisation functions
-         */
-        void begin();
-        void softwareReset();
+    /**
+     * Initialisation functions
+     */
+    void begin();
+    void softwareReset();
 
-        void setOutputEnablePin(uint8_t outputEnablePin);
-        void setLEDConfiguration(LED_Configuration ledConfiguration);
-        void setI2CAddress(uint8_t i2c_address);
+    void setOutputEnablePin(uint8_t outputEnablePin);
+    void setLEDConfiguration(LED_Configuration ledConfiguration);
+    void setI2CAddress(uint8_t i2c_address);
 
-        /**
-         * Configuration functions
-         */
-        void sleep();
-        void wakeUp();
-        void setSubAddress1(uint8_t address, EAddressType addressType = EAddressType::Normal);
-        void setSubAddress2(uint8_t address, EAddressType addressType = EAddressType::Normal);
-        void setSubAddress3(uint8_t address, EAddressType addressType = EAddressType::Normal);
-        void setAllCallAddress(uint8_t address, EAddressType addressType = EAddressType::Normal);
-        void configure(uint8_t configuration, EAddressType addressType = EAddressType::Normal);
-        void enableGlobalDimming(EAddressType addressType = EAddressType::Normal);
-        void enableGlobalBlinking(EAddressType addressType = EAddressType::Normal);
-        void setLEDOutputState(uint8_t led, LED_State ledState, EAddressType addressType = EAddressType::Normal);
-        void setPWMOutputState(uint8_t output, LED_State ledState, EAddressType addressType = EAddressType::Normal);
+    /**
+     * Configuration functions
+     */
+    void sleep();
+    void wakeUp();
+    void setSubAddress1(uint8_t address, EAddressType addressType = EAddressType::Normal);
+    void setSubAddress2(uint8_t address, EAddressType addressType = EAddressType::Normal);
+    void setSubAddress3(uint8_t address, EAddressType addressType = EAddressType::Normal);
+    void setAllCallAddress(uint8_t address, EAddressType addressType = EAddressType::Normal);
+    void configure(uint8_t configuration, EAddressType addressType = EAddressType::Normal);
+    void enableGlobalDimming(EAddressType addressType = EAddressType::Normal);
+    void enableGlobalBlinking(EAddressType addressType = EAddressType::Normal);
+    void setLEDOutputState(uint8_t led, LED_State ledState, EAddressType addressType = EAddressType::Normal);
+    void setPWMOutputState(uint8_t output, LED_State ledState, EAddressType addressType = EAddressType::Normal);
 
-        /**
-         * General control functions
-         */
-        uint8_t readRegister(uint8_t regAddress);
-        uint8_t writeRegister(uint8_t regAddress, uint8_t data, EAddressType addressType = EAddressType::Normal);
+    /**
+     * General control functions
+     */
+    uint8_t readRegister(uint8_t regAddress);
+    uint8_t writeRegister(uint8_t regAddress, uint8_t data, EAddressType addressType = EAddressType::Normal);
 
-        uint8_t writeMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count, EAddressType addressType = EAddressType::Normal);
+    uint8_t writeMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count, EAddressType addressType = EAddressType::Normal);
 
-        void enableOutputs();
-        void disableOutputs();
+    void enableOutputs();
+    void disableOutputs();
 
-        void setPWMOutput(uint8_t output, uint8_t value, EAddressType addressType = EAddressType::Normal);
-        void setAllPWMOutputs(uint8_t value, EAddressType addressType = EAddressType::Normal);
+    void setPWMOutput(uint8_t output, uint8_t value, EAddressType addressType = EAddressType::Normal);
+    void setAllPWMOutputs(uint8_t value, EAddressType addressType = EAddressType::Normal);
 
-        void setGroupPWM(uint8_t value, EAddressType addressType = EAddressType::Normal);
-        uint16_t setGroupFrequency(uint16_t ms, EAddressType addressType = EAddressType::Normal);
+    void setGroupPWM(uint8_t value, EAddressType addressType = EAddressType::Normal);
+    uint16_t setGroupFrequency(uint16_t ms, EAddressType addressType = EAddressType::Normal);
 
-        /**
-         * RGB control functions
-         */
+    /**
+     * RGB control functions
+     */
 
-        void setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType = EAddressType::Normal);
-        void setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType = EAddressType::Normal);
-        void setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType = EAddressType::Normal);
-        void setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType = EAddressType::Normal);
+    void setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType = EAddressType::Normal);
+    void setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType = EAddressType::Normal);
+    void setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, EAddressType addressType = EAddressType::Normal);
+    void setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, EAddressType addressType = EAddressType::Normal);
 
-    protected:
-    private:
-        uint8_t _OE_pin;
+protected:
+private:
+    uint8_t _OE_pin;
 
-        uint8_t _i2c_address;
-        uint8_t _i2c_address_all_call = PCA9622_I2C_ALL_CALL;
-        uint8_t _i2c_address_sw_reset = PCA9622_I2C_SW_RESET;
-        uint8_t _i2c_address_sub_1 = PCA9622_I2C_SUB_1;
-        uint8_t _i2c_address_sub_2 = PCA9622_I2C_SUB_2;
-        uint8_t _i2c_address_sub_3 = PCA9622_I2C_SUB_3;
+    uint8_t _i2c_address;
+    uint8_t _i2c_address_all_call = PCA9622_I2C_ALL_CALL;
+    uint8_t _i2c_address_sw_reset = PCA9622_I2C_SW_RESET;
+    uint8_t _i2c_address_sub_1 = PCA9622_I2C_SUB_1;
+    uint8_t _i2c_address_sub_2 = PCA9622_I2C_SUB_2;
+    uint8_t _i2c_address_sub_3 = PCA9622_I2C_SUB_3;
 
-        LED_Configuration _led_configuration = RGB;
+    LED_Configuration _led_configuration = RGB;
 
-        uint8_t getAddress(EAddressType addressType);
-        void fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *buffer, uint8_t ledCount = 1);
-        void fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, uint8_t *buffer, uint8_t ledCount = 1);
+    uint8_t getAddress(EAddressType addressType);
+    void fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *buffer, uint8_t ledCount = 1);
+    void fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t amber, uint8_t *buffer, uint8_t ledCount = 1);
 };
 
 #endif

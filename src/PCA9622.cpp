@@ -48,8 +48,8 @@ void PCA9622::begin() {
 
     softwareReset();
 
-    writeRegister(PCA9622_MODE1, 0x6E);
     delay(10);
+    // Set all outputs to PWM_AND_GROUP_CONTROL
     uint8_t buffer[] = {0xFF, 0xFF, 0xFF, 0xFF};
     writeMultiRegister(PCA9622_LED_OUT0 | PCA9622_AI_ALL, buffer, 4); // Sets the led output state
 }
@@ -118,7 +118,7 @@ void PCA9622::wakeUp() {
  * @param addressType the I2C address type to write to 
  */
 void PCA9622::setSubAddress1(uint8_t address, EAddressType addressType) {
-    uint8_t retVal = writeRegister(PCA9622_I2C_SUB_1, address, addressType);
+    uint8_t retVal = writeRegister(PCA9622_SUB_ADR1, address, addressType);
     if (retVal == 0) {
         _i2c_address_sub_1 = address;
     }
@@ -131,7 +131,7 @@ void PCA9622::setSubAddress1(uint8_t address, EAddressType addressType) {
  * @param addressType the I2C address type to write to 
  */
 void PCA9622::setSubAddress2(uint8_t address, EAddressType addressType) {
-    uint8_t retVal = writeRegister(PCA9622_I2C_SUB_2, address, addressType);
+    uint8_t retVal = writeRegister(PCA9622_SUB_ADR2, address, addressType);
     if (retVal == 0) {
         _i2c_address_sub_2 = address;
     }
@@ -144,7 +144,7 @@ void PCA9622::setSubAddress2(uint8_t address, EAddressType addressType) {
  * @param addressType the I2C address type to write to 
  */
 void PCA9622::setSubAddress3(uint8_t address, EAddressType addressType) {
-    uint8_t retVal = writeRegister(PCA9622_I2C_SUB_3, address, addressType);
+    uint8_t retVal = writeRegister(PCA9622_SUB_ADR3, address, addressType);
     if (retVal == 0) {
         _i2c_address_sub_3 = address;
     }
@@ -202,7 +202,6 @@ void PCA9622::enableGlobalBlinking(EAddressType addressType) {
  */
 void PCA9622::setLEDOutputState(uint8_t led, LED_State ledState, EAddressType addressType) {
     uint8_t state = ((uint8_t)ledState << 6) | ((uint8_t)ledState << 4) | ((uint8_t)ledState << 2) | ((uint8_t)ledState << 0);
-    Serial.println(String(state) + " " + String((uint8_t)ledState));
     writeRegister(PCA9622_LED_OUT0 + led, state, addressType);
 }
 

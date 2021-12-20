@@ -106,7 +106,8 @@ enum PCA9622_Configuration {
 class PCA9622
 {
 public:
-    PCA9622(uint8_t i2c_address, uint8_t outputEnablePin); // Constructor
+    PCA9622(uint8_t i2c_address); // Constructor
+    PCA9622(uint8_t i2c_address, uint8_t outputEnablePin); // Constructor with ~OE pin
     PCA9622(uint8_t i2c_address, uint8_t outputEnablePin, LED_Configuration ledConfiguration); // Constructor with specific led configuration
 
     /**
@@ -162,7 +163,7 @@ public:
 
 protected:
 private:
-    uint8_t _OE_pin;
+    uint8_t _OE_pin = 0xFF;
 
     uint8_t _i2c_address;
     uint8_t _i2c_address_all_call = PCA9622_I2C_ALL_CALL;

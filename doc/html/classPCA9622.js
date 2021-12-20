@@ -1,5 +1,6 @@
 var classPCA9622 =
 [
+    [ "PCA9622", "classPCA9622.html#a91cfc2f1d5ebbe351211b051d408360e", null ],
     [ "PCA9622", "classPCA9622.html#a27db3c906587908c84add47cf953a58c", null ],
     [ "PCA9622", "classPCA9622.html#a45847a8a8f6206e32593b69d4deca919", null ],
     [ "begin", "classPCA9622.html#aff224090435165a1be8c6d96b5cee002", null ],

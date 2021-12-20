@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['pca9622_36',['PCA9622',['../classPCA9622.html',1,'PCA9622'],['../classPCA9622.html#a27db3c906587908c84add47cf953a58c',1,'PCA9622::PCA9622(uint8_t i2c_address, uint8_t outputEnablePin)'],['../classPCA9622.html#a45847a8a8f6206e32593b69d4deca919',1,'PCA9622::PCA9622(uint8_t i2c_address, uint8_t outputEnablePin, LED_Configuration ledConfiguration)']]],
+  ['pca9622_36',['PCA9622',['../classPCA9622.html',1,'PCA9622'],['../classPCA9622.html#a91cfc2f1d5ebbe351211b051d408360e',1,'PCA9622::PCA9622(uint8_t i2c_address)'],['../classPCA9622.html#a27db3c906587908c84add47cf953a58c',1,'PCA9622::PCA9622(uint8_t i2c_address, uint8_t outputEnablePin)'],['../classPCA9622.html#a45847a8a8f6206e32593b69d4deca919',1,'PCA9622::PCA9622(uint8_t i2c_address, uint8_t outputEnablePin, LED_Configuration ledConfiguration)']]],
   ['pca9622_2ecpp_37',['PCA9622.cpp',['../PCA9622_8cpp.html',1,'']]],
   ['pca9622_2eh_38',['PCA9622.h',['../PCA9622_8h.html',1,'']]],
   ['pca9622_5fai_5fall_39',['PCA9622_AI_ALL',['../PCA9622_8h.html#a04ef5eb95c4ba03ee30162583f49ee05',1,'PCA9622.h']]],

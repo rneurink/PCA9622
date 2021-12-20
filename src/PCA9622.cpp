@@ -16,6 +16,15 @@
 /**
  * @brief This function instantiates the class object
  * 
+ * @param i2c_address 
+ */
+PCA9622::PCA9622(uint8_t i2c_address) {
+    _i2c_address = i2c_address;
+}
+
+/**
+ * @brief This function instantiates the class object with an ~OE pin
+ * 
  * @param i2c_address The I2C address of the PCA9622 chip
  * @param outputEnablePin The arduino pin that is connected to the ~OE pin of the PCA9266
  */
@@ -43,7 +52,9 @@ PCA9622::PCA9622(uint8_t i2c_address, uint8_t outputEnablePin, LED_Configuration
  */
 void PCA9622::begin() {
     i2c_init();
-    pinMode(_OE_pin, OUTPUT);
+    if (_OE_pin != 0xFF) {
+        pinMode(_OE_pin, OUTPUT);
+    }
     disableOutputs();
 
     softwareReset();
@@ -277,7 +288,9 @@ uint8_t PCA9622::writeMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t
  * 
  */
 void PCA9622::enableOutputs() {
-    digitalWrite(_OE_pin, LOW);
+    if (_OE_pin != 0xFF) {
+        digitalWrite(_OE_pin, LOW);
+    }
 }
 
 /**
@@ -285,7 +298,9 @@ void PCA9622::enableOutputs() {
  * 
  */
 void PCA9622::disableOutputs() {
-    digitalWrite(_OE_pin, HIGH);
+    if (_OE_pin != 0xFF) {
+        digitalWrite(_OE_pin, HIGH);
+    }
 }
 
 /**

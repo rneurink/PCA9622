@@ -1,9 +1,19 @@
+/**
+ * @file I2C_coms.cpp
+ * @author rneurink (ruben.neurink@gmail.com)
+ * @brief Contains i2c implementation of the platform
+ * @version 1.0.0
+ * @date 2021-06-28
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #include "I2C_coms.h"
 
 //#define I2C_DEBUG
 
 int8_t i2c_init() {
-    Wire.begin();
+    //Wire.begin(); Best to pull this out of the library
     return 0;
 }
 

@@ -2,7 +2,7 @@
  * @file PCA9622.h
  * @author rneurink (ruben.neurink@gmail.com)
  * @brief Arduino driver to control the PCA9622
- * @version 1.0
+ * @version 1.1.0
  * @date 2021-06-28
  * 
  * @copyright Copyright (c) 2021
@@ -10,8 +10,8 @@
  */
 
 /*  TODO:
- *      Test wakeup and sleep
         Fix setledoutputstate to use the ledconfiguration to set 3 or 4 outputs per led
+        Add examples
  * 
  */
 
@@ -99,6 +99,10 @@ enum PCA9622_Configuration {
     WAKEUP = 0 << 4
 };
 
+/**
+ * @brief Arduino driver to control the PCA9622
+ * 
+ */
 class PCA9622
 {
 public:

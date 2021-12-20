@@ -2,7 +2,7 @@
  * @file PCA9622.cpp
  * @author rneurink (ruben.neurink@gmail.com)
  * @brief Arduino driver to control the PCA9622
- * @version 1.0
+ * @version 1.1.0
  * @date 2021-06-28
  * 
  * @copyright Copyright (c) 2021
@@ -49,13 +49,14 @@ void PCA9622::begin() {
     softwareReset();
 
     delay(10);
+    wakeUp();
     // Set all outputs to PWM_AND_GROUP_CONTROL
     uint8_t buffer[] = {0xFF, 0xFF, 0xFF, 0xFF};
     writeMultiRegister(PCA9622_LED_OUT0 | PCA9622_AI_ALL, buffer, 4); // Sets the led output state
 }
 
 /**
- * @brief Resets the PCA9622 @warning resets all PCA9622 devices on the I2C Bus!
+ * @brief Resets the PCA9622 @warning resets all PCA9622 devices on the I2C Bus! @note the PCA9266 resets in low power mode so make sure to call @ref wakeUp to power up the device
  * 
  */
 void PCA9622::softwareReset() {
@@ -107,7 +108,7 @@ void PCA9622::sleep() {
  * 
  */
 void PCA9622::wakeUp() {
-    writeRegister(PCA9622_MODE1, readRegister(PCA9622_MODE1) | PCA9622_Configuration::WAKEUP);
+    writeRegister(PCA9622_MODE1, (readRegister(PCA9622_MODE1) & ~(PCA9622_Configuration::SLEEP)) | PCA9622_Configuration::WAKEUP);
     delayMicroseconds(500);
 }
 
@@ -214,13 +215,13 @@ void PCA9622::setLEDOutputState(uint8_t led, LED_State ledState, EAddressType ad
  */
 void PCA9622::setPWMOutputState(uint8_t output, LED_State ledState, EAddressType addressType) {
     if (output <= 3) {
-        writeRegister(PCA9622_LED_OUT0, readRegister(PCA9622_LED_OUT0) | ((uint8_t)ledState << output * 2), addressType);
+        writeRegister(PCA9622_LED_OUT0, ((readRegister(PCA9622_LED_OUT0) & ~(0x3 << output * 2)) | ((uint8_t)ledState << output * 2)), addressType);
     } else if (output <= 7) {
-        writeRegister(PCA9622_LED_OUT1, readRegister(PCA9622_LED_OUT1) | ((uint8_t)ledState << (output % 4) * 2), addressType);
+        writeRegister(PCA9622_LED_OUT1, ((readRegister(PCA9622_LED_OUT1) & ~(0x3 << (output % 4) * 2)) | ((uint8_t)ledState << (output % 4) * 2)), addressType);
     } else if (output <= 11) {
-        writeRegister(PCA9622_LED_OUT2, readRegister(PCA9622_LED_OUT2) | ((uint8_t)ledState << (output % 4) * 2), addressType);
+        writeRegister(PCA9622_LED_OUT2, ((readRegister(PCA9622_LED_OUT2) & ~(0x3 << (output % 4) * 2)) | ((uint8_t)ledState << (output % 4) * 2)), addressType);
     } else if (output <= 15) {
-        writeRegister(PCA9622_LED_OUT3, readRegister(PCA9622_LED_OUT3) | ((uint8_t)ledState << (output % 4) * 2), addressType);
+        writeRegister(PCA9622_LED_OUT3, ((readRegister(PCA9622_LED_OUT3) & ~(0x3 << (output % 4) * 2)) | ((uint8_t)ledState << (output % 4) * 2)), addressType);
     }
 }
 
@@ -347,7 +348,7 @@ uint16_t PCA9622::setGroupFrequency(uint16_t ms, EAddressType addressType) {
 /*----------------------- RGB control functions -----------------------------*/
 
 /**
- * @brief Sets the LED color according to the set LED configuration @ref SetLEDConfiguration
+ * @brief Sets the LED color according to the set LED configuration @ref setLEDConfiguration
  * 
  * @param led The LED to set the color of. If the led configuration is set to RGB or alike (3 color channels) a maximum of 5 leds are supported
  * @param red The red color value from 0 to 0xFF
@@ -378,7 +379,7 @@ void PCA9622::setLEDColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue,
 }
 
 /**
- * @brief Sets all LEDs color according to the set LED configuration @ref SetLEDConfiguration
+ * @brief Sets all LEDs color according to the set LED configuration @ref setLEDConfiguration
  * 
  * @param red The red color value from 0 to 0xFF
  * @param green The green color value from 0 to 0xFF
@@ -392,7 +393,7 @@ void PCA9622::setAllLEDColor(uint8_t red, uint8_t green, uint8_t blue, EAddressT
 }
 
 /**
- * @brief Sets all LEDs color according to the set LED configuration @ref SetLEDConfiguration
+ * @brief Sets all LEDs color according to the set LED configuration @ref setLEDConfiguration
  * 
  * @param red The red color value from 0 to 0xFF
  * @param green The green color value from 0 to 0xFF
@@ -444,7 +445,7 @@ uint8_t PCA9622::getAddress(EAddressType addressType) {
 }
 
 /**
- * @brief Fills a led buffer acording to the set LED configuration @ref SetLEDConfiguration
+ * @brief Fills a led buffer acording to the set LED configuration @ref setLEDConfiguration
  * 
  * @param red The red color value from 0 to 0xFF
  * @param green The green color value from 0 to 0xFF
@@ -492,7 +493,7 @@ void PCA9622::fillLEDbuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t *b
 }
 
 /**
- * @brief Fills a led buffer acording to the set LED configuration @ref SetLEDConfiguration
+ * @brief Fills a led buffer acording to the set LED configuration @ref setLEDConfiguration
  * 
  * @param red The red color value from 0 to 0xFF
  * @param green The green color value from 0 to 0xFF

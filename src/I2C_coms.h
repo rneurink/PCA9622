@@ -1,8 +1,13 @@
 /**
- * @file  I2C_coms.h
+ * @file I2C_coms.h
+ * @author rneurink (ruben.neurink@gmail.com)
  * @brief Contains i2c implementation of the platform
+ * @version 1.0.0
+ * @date 2021-06-28
+ * 
+ * @copyright Copyright (c) 2021
+ * 
  */
- 
 #ifndef _I2C_COMS_H_
 #define _I2C_COMS_H_
 

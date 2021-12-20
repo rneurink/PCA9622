@@ -130,8 +130,8 @@ public:
     void setSubAddress3(uint8_t address, EAddressType addressType = EAddressType::Normal);
     void setAllCallAddress(uint8_t address, EAddressType addressType = EAddressType::Normal);
     void configure(uint8_t configuration, EAddressType addressType = EAddressType::Normal);
-    void enableGlobalDimming(EAddressType addressType = EAddressType::Normal);
-    void enableGlobalBlinking(EAddressType addressType = EAddressType::Normal);
+    void enableGroupDimming(EAddressType addressType = EAddressType::Normal);
+    void enableGroupBlinking(EAddressType addressType = EAddressType::Normal);
     void setLEDOutputState(uint8_t led, LED_State ledState, EAddressType addressType = EAddressType::Normal);
     void setPWMOutputState(uint8_t output, LED_State ledState, EAddressType addressType = EAddressType::Normal);
 

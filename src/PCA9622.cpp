@@ -51,15 +51,11 @@ PCA9622::PCA9622(uint8_t i2c_address, uint8_t outputEnablePin, LED_Configuration
  * 
  */
 void PCA9622::begin() {
-    i2c_init();
     if (_OE_pin != 0xFF) {
         pinMode(_OE_pin, OUTPUT);
     }
     disableOutputs();
 
-    softwareReset();
-
-    delay(10);
     wakeUp();
     // Set all outputs to PWM_AND_GROUP_CONTROL
     uint8_t buffer[] = {0xFF, 0xFF, 0xFF, 0xFF};
@@ -98,7 +94,7 @@ void PCA9622::setLEDConfiguration(LED_Configuration ledConfiguration) {
 }
 
 /**
- * @brief Sets the I2C address
+ * @brief Sets the I2C address @note this only sets the library internal address. This does not change the I2C address of the device!
  * 
  * @param i2c_address 
  */
@@ -186,22 +182,22 @@ void PCA9622::configure(uint8_t configuration, EAddressType addressType) {
 }
 
 /**
- * @brief Enables global dimming through the GRPPWM register. 
- * See @ref setGroupPWM to set the global dimming
+ * @brief Enables group dimming through the GRPPWM register. 
+ * See @ref setGroupPWM to set the group dimming
  * 
  * @param addressType the I2C address type to write to 
  */
-void PCA9622::enableGlobalDimming(EAddressType addressType) {
+void PCA9622::enableGroupDimming(EAddressType addressType) {
     writeRegister(PCA9622_MODE2, readRegister(PCA9622_MODE2) & ~(1 << 5), addressType);
 }
 
 /**
- * @brief Enables global blinking through the GRPPWM and GRPFREQ register. 
- * See @ref setGroupPWM and @ref setGroupFrequency to set the global blinking cuty cycle and interval
+ * @brief Enables group blinking through the GRPPWM and GRPFREQ register. 
+ * See @ref setGroupPWM and @ref setGroupFrequency to set the group blinking cuty cycle and interval
  * 
  * @param addressType the I2C address type to write to 
  */
-void PCA9622::enableGlobalBlinking(EAddressType addressType) {
+void PCA9622::enableGroupBlinking(EAddressType addressType) {
     writeRegister(PCA9622_MODE2, readRegister(PCA9622_MODE2) | (1 << 5), addressType);
 }
 
@@ -331,7 +327,7 @@ void PCA9622::setAllPWMOutputs(uint8_t value, EAddressType addressType) {
 /**
  * @brief Sets the group duty cycle. 
  * When DMBLNK is set to 0, a 190Hz fixed frequency signal is superimposed with the 97kHz individual brightness control signal.
- * When DMBLNK is set to 1, togheter with the group frequency defines a global blinking pattern in which the value will determine the duty cycle of the ON/OFF ratio as a percentage
+ * When DMBLNK is set to 1, togheter with the group frequency defines a group blinking pattern in which the value will determine the duty cycle of the ON/OFF ratio as a percentage
  * 
  * @param value The pwm duty cycle
  * @param addressType the I2C address type to write to 

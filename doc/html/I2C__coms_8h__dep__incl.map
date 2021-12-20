@@ -1,0 +1,5 @@
+<map id="src/I2C_coms.h" name="src/I2C_coms.h">
+<area shape="rect" id="node1" title="Contains i2c implementation of the platform." alt="" coords="91,5,211,32"/>
+<area shape="rect" id="node2" href="$I2C__coms_8cpp.html" title="Contains i2c implementation of the platform." alt="" coords="5,80,140,107"/>
+<area shape="rect" id="node3" href="$PCA9622_8cpp.html" title="Arduino driver to control the PCA9622." alt="" coords="165,80,295,107"/>
+</map>

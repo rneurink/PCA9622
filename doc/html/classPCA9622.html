@@ -153,15 +153,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a30bc1a086988d468e638c3044eb6a02d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#a30bc1a086988d468e638c3044eb6a02d">configure</a> (uint8_t configuration, <a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
 <tr class="memdesc:a30bc1a086988d468e638c3044eb6a02d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the device according to the configuration param.  <a href="classPCA9622.html#a30bc1a086988d468e638c3044eb6a02d">More...</a><br /></td></tr>
 <tr class="separator:a30bc1a086988d468e638c3044eb6a02d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd5c1eeffbe324acb38ae1d52cdcf220"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#afd5c1eeffbe324acb38ae1d52cdcf220">enableGlobalDimming</a> (<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
-<tr class="memdesc:afd5c1eeffbe324acb38ae1d52cdcf220"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables global dimming through the GRPPWM register. See <a class="el" href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">setGroupPWM</a> to set the global dimming.  <a href="classPCA9622.html#afd5c1eeffbe324acb38ae1d52cdcf220">More...</a><br /></td></tr>
-<tr class="separator:afd5c1eeffbe324acb38ae1d52cdcf220"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84f2276a4966fed4fd7c504f0a59d91f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#a84f2276a4966fed4fd7c504f0a59d91f">enableGlobalBlinking</a> (<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
-<tr class="memdesc:a84f2276a4966fed4fd7c504f0a59d91f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables global blinking through the GRPPWM and GRPFREQ register. See <a class="el" href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">setGroupPWM</a> and <a class="el" href="classPCA9622.html#a5a72345e5af8a9e7e21c1acc01ecfebb">setGroupFrequency</a> to set the global blinking cuty cycle and interval.  <a href="classPCA9622.html#a84f2276a4966fed4fd7c504f0a59d91f">More...</a><br /></td></tr>
-<tr class="separator:a84f2276a4966fed4fd7c504f0a59d91f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fab261c66f97f6f5f8f94f0348ec25d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#a5fab261c66f97f6f5f8f94f0348ec25d">setLEDOutputState</a> (uint8_t led, <a class="el" href="PCA9622_8h.html#a4a8326721c03c1e5b40de78b999236b8">LED_State</a> ledState, <a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
-<tr class="memdesc:a5fab261c66f97f6f5f8f94f0348ec25d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the output state of a led channel.  <a href="classPCA9622.html#a5fab261c66f97f6f5f8f94f0348ec25d">More...</a><br /></td></tr>
-<tr class="separator:a5fab261c66f97f6f5f8f94f0348ec25d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a828857f5dc967935435d654a395bd41e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#a828857f5dc967935435d654a395bd41e">enableGroupDimming</a> (<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
+<tr class="memdesc:a828857f5dc967935435d654a395bd41e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables group dimming through the GRPPWM register. See <a class="el" href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">setGroupPWM</a> to set the group dimming.  <a href="classPCA9622.html#a828857f5dc967935435d654a395bd41e">More...</a><br /></td></tr>
+<tr class="separator:a828857f5dc967935435d654a395bd41e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f8f8e54a27fd6a5ff2edf8b884dc162"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#a0f8f8e54a27fd6a5ff2edf8b884dc162">enableGroupBlinking</a> (<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
+<tr class="memdesc:a0f8f8e54a27fd6a5ff2edf8b884dc162"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables group blinking through the GRPPWM and GRPFREQ register. See <a class="el" href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">setGroupPWM</a> and <a class="el" href="classPCA9622.html#a5a72345e5af8a9e7e21c1acc01ecfebb">setGroupFrequency</a> to set the group blinking cuty cycle and interval.  <a href="classPCA9622.html#a0f8f8e54a27fd6a5ff2edf8b884dc162">More...</a><br /></td></tr>
+<tr class="separator:a0f8f8e54a27fd6a5ff2edf8b884dc162"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1db07c6cb3b10189a64889cea64f42e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#a1db07c6cb3b10189a64889cea64f42e0">setLEDOutputState</a> (uint8_t led, <a class="el" href="PCA9622_8h.html#a4a8326721c03c1e5b40de78b999236b8">LED_State</a> ledState)</td></tr>
+<tr class="memdesc:a1db07c6cb3b10189a64889cea64f42e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the output state of a led channel.  <a href="classPCA9622.html#a1db07c6cb3b10189a64889cea64f42e0">More...</a><br /></td></tr>
+<tr class="separator:a1db07c6cb3b10189a64889cea64f42e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab75f967898b8970c27e7288f7a4dd3da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#ab75f967898b8970c27e7288f7a4dd3da">setOutputState</a> (uint8_t led, <a class="el" href="PCA9622_8h.html#a4a8326721c03c1e5b40de78b999236b8">LED_State</a> ledState, <a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
+<tr class="memdesc:ab75f967898b8970c27e7288f7a4dd3da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the output state of a led channel.  <a href="classPCA9622.html#ab75f967898b8970c27e7288f7a4dd3da">More...</a><br /></td></tr>
+<tr class="separator:ab75f967898b8970c27e7288f7a4dd3da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14e57f4a96c2c165ad8db2bc3c131f0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#a14e57f4a96c2c165ad8db2bc3c131f0d">setPWMOutputState</a> (uint8_t output, <a class="el" href="PCA9622_8h.html#a4a8326721c03c1e5b40de78b999236b8">LED_State</a> ledState, <a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
 <tr class="memdesc:a14e57f4a96c2c165ad8db2bc3c131f0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the output state of an output.  <a href="classPCA9622.html#a14e57f4a96c2c165ad8db2bc3c131f0d">More...</a><br /></td></tr>
 <tr class="separator:a14e57f4a96c2c165ad8db2bc3c131f0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,6 +177,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad458cfd7e542963c81b15ab4d4842143"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#ad458cfd7e542963c81b15ab4d4842143">writeMultiRegister</a> (uint8_t startAddress, uint8_t *data, uint8_t count, <a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
 <tr class="memdesc:ad458cfd7e542963c81b15ab4d4842143"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a given buffer to the specified start address and subsequent addresses.  <a href="classPCA9622.html#ad458cfd7e542963c81b15ab4d4842143">More...</a><br /></td></tr>
 <tr class="separator:ad458cfd7e542963c81b15ab4d4842143"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7a9904ef0dc51da0663e81e504183bb"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#ad7a9904ef0dc51da0663e81e504183bb">readMultiRegister</a> (uint8_t startAddress, uint8_t *data, uint8_t count)</td></tr>
+<tr class="memdesc:ad7a9904ef0dc51da0663e81e504183bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads from the specified start address and subsequent addresses to the given buffer.  <a href="classPCA9622.html#ad7a9904ef0dc51da0663e81e504183bb">More...</a><br /></td></tr>
+<tr class="separator:ad7a9904ef0dc51da0663e81e504183bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84a29c4bf49f7da6c6c369b9f4788d7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#a84a29c4bf49f7da6c6c369b9f4788d7e">enableOutputs</a> ()</td></tr>
 <tr class="memdesc:a84a29c4bf49f7da6c6c369b9f4788d7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the ~OE pin low and enables the outputs of the <a class="el" href="classPCA9622.html" title="Arduino driver to control the PCA9622.">PCA9622</a>.  <a href="classPCA9622.html#a84a29c4bf49f7da6c6c369b9f4788d7e">More...</a><br /></td></tr>
 <tr class="separator:a84a29c4bf49f7da6c6c369b9f4788d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,7 +193,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a7651ce31d7ec7493d0ee84780fe81554"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets all the pwm outputs of the driver.  <a href="classPCA9622.html#a7651ce31d7ec7493d0ee84780fe81554">More...</a><br /></td></tr>
 <tr class="separator:a7651ce31d7ec7493d0ee84780fe81554"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a885895922be4deb943ff1dc3c7d3b7de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">setGroupPWM</a> (uint8_t value, <a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
-<tr class="memdesc:a885895922be4deb943ff1dc3c7d3b7de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the group duty cycle. When DMBLNK is set to 0, a 190Hz fixed frequency signal is superimposed with the 97kHz individual brightness control signal. When DMBLNK is set to 1, togheter with the group frequency defines a global blinking pattern in which the value will determine the duty cycle of the ON/OFF ratio as a percentage.  <a href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">More...</a><br /></td></tr>
+<tr class="memdesc:a885895922be4deb943ff1dc3c7d3b7de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the group duty cycle. When DMBLNK is set to 0, a 190Hz fixed frequency signal is superimposed with the 97kHz individual brightness control signal. When DMBLNK is set to 1, togheter with the group frequency defines a group blinking pattern in which the value will determine the duty cycle of the ON/OFF ratio as a percentage.  <a href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">More...</a><br /></td></tr>
 <tr class="separator:a885895922be4deb943ff1dc3c7d3b7de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a72345e5af8a9e7e21c1acc01ecfebb"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPCA9622.html#a5a72345e5af8a9e7e21c1acc01ecfebb">setGroupFrequency</a> (uint16_t ms, <a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a> addressType=<a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a>)</td></tr>
 <tr class="memdesc:a5a72345e5af8a9e7e21c1acc01ecfebb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the blinking frequency When DMBLNK is 0 this register does nothing When DMBLNK is 1 this register is used to program the blinking delay.  <a href="classPCA9622.html#a5a72345e5af8a9e7e21c1acc01ecfebb">More...</a><br /></td></tr>
@@ -391,14 +397,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a84f2276a4966fed4fd7c504f0a59d91f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84f2276a4966fed4fd7c504f0a59d91f">&#9670;&nbsp;</a></span>enableGlobalBlinking()</h2>
+<a id="a0f8f8e54a27fd6a5ff2edf8b884dc162"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f8f8e54a27fd6a5ff2edf8b884dc162">&#9670;&nbsp;</a></span>enableGroupBlinking()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void PCA9622::enableGlobalBlinking </td>
+          <td class="memname">void PCA9622::enableGroupBlinking </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a>&#160;</td>
           <td class="paramname"><em>addressType</em> = <code><a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a></code></td><td>)</td>
@@ -407,7 +413,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Enables global blinking through the GRPPWM and GRPFREQ register. See <a class="el" href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">setGroupPWM</a> and <a class="el" href="classPCA9622.html#a5a72345e5af8a9e7e21c1acc01ecfebb">setGroupFrequency</a> to set the global blinking cuty cycle and interval. </p>
+<p>Enables group blinking through the GRPPWM and GRPFREQ register. See <a class="el" href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">setGroupPWM</a> and <a class="el" href="classPCA9622.html#a5a72345e5af8a9e7e21c1acc01ecfebb">setGroupFrequency</a> to set the group blinking cuty cycle and interval. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">addressType</td><td>the I2C address type to write to </td></tr>
@@ -417,14 +423,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="afd5c1eeffbe324acb38ae1d52cdcf220"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd5c1eeffbe324acb38ae1d52cdcf220">&#9670;&nbsp;</a></span>enableGlobalDimming()</h2>
+<a id="a828857f5dc967935435d654a395bd41e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a828857f5dc967935435d654a395bd41e">&#9670;&nbsp;</a></span>enableGroupDimming()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void PCA9622::enableGlobalDimming </td>
+          <td class="memname">void PCA9622::enableGroupDimming </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a>&#160;</td>
           <td class="paramname"><em>addressType</em> = <code><a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a></code></td><td>)</td>
@@ -433,7 +439,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Enables global dimming through the GRPPWM register. See <a class="el" href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">setGroupPWM</a> to set the global dimming. </p>
+<p>Enables group dimming through the GRPPWM register. See <a class="el" href="classPCA9622.html#a885895922be4deb943ff1dc3c7d3b7de">setGroupPWM</a> to set the group dimming. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">addressType</td><td>the I2C address type to write to </td></tr>
@@ -459,6 +465,50 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Drives the ~OE pin low and enables the outputs of the <a class="el" href="classPCA9622.html" title="Arduino driver to control the PCA9622.">PCA9622</a>. </p>
+
+</div>
+</div>
+<a id="ad7a9904ef0dc51da0663e81e504183bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7a9904ef0dc51da0663e81e504183bb">&#9670;&nbsp;</a></span>readMultiRegister()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t PCA9622::readMultiRegister </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>startAddress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads from the specified start address and subsequent addresses to the given buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">startAddress</td><td>the register start address to read from </td></tr>
+    <tr><td class="paramname">data</td><td>the data buffer to read to </td></tr>
+    <tr><td class="paramname">count</td><td>the amount of data to read </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -738,7 +788,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sets the group duty cycle. When DMBLNK is set to 0, a 190Hz fixed frequency signal is superimposed with the 97kHz individual brightness control signal. When DMBLNK is set to 1, togheter with the group frequency defines a global blinking pattern in which the value will determine the duty cycle of the ON/OFF ratio as a percentage. </p>
+<p>Sets the group duty cycle. When DMBLNK is set to 0, a 190Hz fixed frequency signal is superimposed with the 97kHz individual brightness control signal. When DMBLNK is set to 1, togheter with the group frequency defines a group blinking pattern in which the value will determine the duty cycle of the ON/OFF ratio as a percentage. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>The pwm duty cycle </td></tr>
@@ -766,6 +816,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the I2C address. </p>
+<dl class="section note"><dt>Note</dt><dd>this only sets the library internal address. This does not change the I2C address of the device!</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">i2c_address</td><td></td></tr>
@@ -923,8 +974,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5fab261c66f97f6f5f8f94f0348ec25d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5fab261c66f97f6f5f8f94f0348ec25d">&#9670;&nbsp;</a></span>setLEDOutputState()</h2>
+<a id="a1db07c6cb3b10189a64889cea64f42e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1db07c6cb3b10189a64889cea64f42e0">&#9670;&nbsp;</a></span>setLEDOutputState()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -939,13 +990,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="PCA9622_8h.html#a4a8326721c03c1e5b40de78b999236b8">LED_State</a>&#160;</td>
-          <td class="paramname"><em>ledState</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a>&#160;</td>
-          <td class="paramname"><em>addressType</em> = <code><a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a></code>&#160;</td>
+          <td class="paramname"><em>ledState</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -956,11 +1001,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the output state of a led channel. </p>
+<dl class="section note"><dt>Note</dt><dd>LED channel specified by the library not the device!. This will change 3 outputs if RGB like configuration is set and 4 outputs on RGBA like configurations</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">led</td><td>The led to set the output state of. from 0..3. LED 0 controls output 0..3 and so on </td></tr>
+    <tr><td class="paramname">led</td><td>The led to set the output state of. For RGB like configurations 0..4 (output 15 is skipped) and RGBA like configurations 0..3 </td></tr>
     <tr><td class="paramname">ledState</td><td>The state of the led to set. See <a class="el" href="PCA9622_8h.html#a4a8326721c03c1e5b40de78b999236b8">LED_State</a> </td></tr>
-    <tr><td class="paramname">addressType</td><td>the I2C address type to write to </td></tr>
   </table>
   </dd>
 </dl>
@@ -987,6 +1032,51 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">outputEnablePin</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab75f967898b8970c27e7288f7a4dd3da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab75f967898b8970c27e7288f7a4dd3da">&#9670;&nbsp;</a></span>setOutputState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PCA9622::setOutputState </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>led</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="PCA9622_8h.html#a4a8326721c03c1e5b40de78b999236b8">LED_State</a>&#160;</td>
+          <td class="paramname"><em>ledState</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89">EAddressType</a>&#160;</td>
+          <td class="paramname"><em>addressType</em> = <code><a class="el" href="PCA9622_8h.html#a766aadc4147ea9009b1945e34ac2fd89a5ecbcf0afce98b042f35ec71ba03fa4b">EAddressType::Normal</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the output state of a led channel. </p>
+<dl class="section note"><dt>Note</dt><dd>LED channel specified by the device not the library. So it will always change 4 outputs</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">led</td><td>The led to set the output state of. from 0..3. LED 0 controls output 0..3 and so on </td></tr>
+    <tr><td class="paramname">ledState</td><td>The state of the led to set. See <a class="el" href="PCA9622_8h.html#a4a8326721c03c1e5b40de78b999236b8">LED_State</a> </td></tr>
+    <tr><td class="paramname">addressType</td><td>the I2C address type to write to </td></tr>
   </table>
   </dd>
 </dl>

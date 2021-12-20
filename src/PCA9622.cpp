@@ -202,13 +202,41 @@ void PCA9622::enableGroupBlinking(EAddressType addressType) {
 }
 
 /**
- * @brief Sets the output state of a led channel
+ * @brief Sets the output state of a led channel @note LED channel specified by the library not the device!. This will change 3 outputs if RGB like configuration is set and 4 outputs on RGBA like configurations
+ * 
+ * @param led The led to set the output state of. For RGB like configurations 0..4 (output 15 is skipped) and RGBA like configurations 0..3
+ * @param ledState The state of the led to set. See @ref LED_State
+ */
+void PCA9622::setLEDOutputState(uint8_t led, LED_State ledState) {
+    if (_led_configuration < 6) {// RGB like
+        if (led > 4) led = 4;
+        uint8_t currentState[4];
+        readMultiRegister(PCA9622_LED_OUT0 | PCA9622_AI_ALL, currentState, 4);
+        
+        uint32_t mask = 0x3F << (led * 6);;
+        uint32_t state = ((uint32_t)currentState[0] & 0xFF) | (((uint32_t)currentState[1] << 8) & 0xFF00) | (((uint32_t)currentState[2] << 16) & 0xFF0000) | (((uint32_t)currentState[3] << 24) & 0xFF000000);
+        state &= ~mask;
+        
+        state |= ((uint32_t)ledState << (4 + (led * 6))) | ((uint32_t)ledState << (2 + (led * 6))) | ((uint32_t)ledState << (0 + (led * 6)));
+        currentState[0] = state & 0xFF;
+        currentState[1] = (state >> 8) & 0xFF;
+        currentState[2] = (state >> 16) & 0xFF;
+        currentState[3] = (state >> 24) & 0xFF;
+        writeMultiRegister(PCA9622_LED_OUT0 | PCA9622_AI_ALL, currentState, 4);
+    } else { // RGBA like
+        if (led > 3) led = 3;
+        writeRegister(PCA9622_LED_OUT0 + led, ((uint8_t)ledState << 6) | ((uint8_t)ledState << 4) | ((uint8_t)ledState << 2) | ((uint8_t)ledState << 0));
+    }
+}
+
+/**
+ * @brief Sets the output state of a led channel @note LED channel specified by the device not the library. So it will always change 4 outputs
  * 
  * @param led The led to set the output state of. from 0..3. LED 0 controls output 0..3 and so on
  * @param ledState The state of the led to set. See @ref LED_State
  * @param addressType the I2C address type to write to 
  */
-void PCA9622::setLEDOutputState(uint8_t led, LED_State ledState, EAddressType addressType) {
+void PCA9622::setOutputState(uint8_t led, LED_State ledState, EAddressType addressType) {
     uint8_t state = ((uint8_t)ledState << 6) | ((uint8_t)ledState << 4) | ((uint8_t)ledState << 2) | ((uint8_t)ledState << 0);
     writeRegister(PCA9622_LED_OUT0 + led, state, addressType);
 }
@@ -277,6 +305,17 @@ uint8_t PCA9622::writeRegister(uint8_t regAddress, uint8_t data, EAddressType ad
  */
 uint8_t PCA9622::writeMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count, EAddressType addressType) {
     return i2c_write_multi(getAddress(addressType), startAddress, data, count);
+}
+
+/**
+ * @brief Reads from the specified start address and subsequent addresses to the given buffer
+ * 
+ * @param startAddress the register start address to read from
+ * @param data the data buffer to read to
+ * @param count the amount of data to read
+ */
+uint8_t PCA9622::readMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count) {
+    return i2c_read_multi(_i2c_address, startAddress, data, count);
 }
 
 /**

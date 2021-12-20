@@ -9,12 +9,6 @@
  * 
  */
 
-/*  TODO:
-        Fix setledoutputstate to use the ledconfiguration to set 3 or 4 outputs per led
-        Add examples
- * 
- */
-
 #ifndef __PCA9622_H
 #define __PCA9622_H
 
@@ -132,7 +126,8 @@ public:
     void configure(uint8_t configuration, EAddressType addressType = EAddressType::Normal);
     void enableGroupDimming(EAddressType addressType = EAddressType::Normal);
     void enableGroupBlinking(EAddressType addressType = EAddressType::Normal);
-    void setLEDOutputState(uint8_t led, LED_State ledState, EAddressType addressType = EAddressType::Normal);
+    void setLEDOutputState(uint8_t led, LED_State ledState);
+    void setOutputState(uint8_t led, LED_State ledState, EAddressType addressType = EAddressType::Normal);
     void setPWMOutputState(uint8_t output, LED_State ledState, EAddressType addressType = EAddressType::Normal);
 
     /**
@@ -142,6 +137,7 @@ public:
     uint8_t writeRegister(uint8_t regAddress, uint8_t data, EAddressType addressType = EAddressType::Normal);
 
     uint8_t writeMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count, EAddressType addressType = EAddressType::Normal);
+    uint8_t readMultiRegister(uint8_t startAddress, uint8_t *data, uint8_t count);
 
     void enableOutputs();
     void disableOutputs();

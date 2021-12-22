@@ -213,7 +213,7 @@ void PCA9622::setLEDOutputState(uint8_t led, LED_State ledState) {
         uint8_t currentState[4];
         readMultiRegister(PCA9622_LED_OUT0 | PCA9622_AI_ALL, currentState, 4);
         
-        uint32_t mask = 0x3F << (led * 6);;
+        uint32_t mask = (uint32_t)0x3F << (led * 6);;
         uint32_t state = ((uint32_t)currentState[0] & 0xFF) | (((uint32_t)currentState[1] << 8) & 0xFF00) | (((uint32_t)currentState[2] << 16) & 0xFF0000) | (((uint32_t)currentState[3] << 24) & 0xFF000000);
         state &= ~mask;
         
